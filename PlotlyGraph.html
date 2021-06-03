@@ -24,18 +24,20 @@
       document.addEventListener("DOMContentLoaded", function () {
         console.log("DOM Loaded");
         Plotly.newPlot('plotly_graph', data);
-        var updateDOM = function(data){
-             document.getElementById("text").innerHTML = data;
-             console.log('hello', data);
-        }
+
 
         new QWebChannel(qt.webChannelTransport,
         function(channel){
         var JSobject = channel.objects.webobj;
         console.log("Hello->");
         JSobject.jscallme("Calling from JS...");
-        console.log(JSobject.data);
-        JSobject.dataChanged.connect(updateDOM);
+        JSobject.dataChanged.connect(function(arg, arg2) {
+                console.log(JSobject.data);
+                console.log(JSobject.num);
+                console.log(arg);
+                console.log(arg2)
+                document.getElementById("text").innerHTML = JSobject.data;
+            });
         });
       });
     </script>
