@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/files">
+        <file>map.html</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>script.js</file>
+    </qresource>
+    <qresource prefix="/graph">
+        <file>PlotlyGraph.html</file>
+    </qresource>
+</RCC>

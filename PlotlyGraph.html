@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlotlyGraph</title>
+    <script src="https://cdn.plot.ly/plotly-1.58.4.min.js"></script>
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <script defer>
+      var trace1 = {
+        x: [1, 2, 3, 4],
+        y: [10, 15, 13, 17],
+        type: "scatter",
+      };
+
+      var trace2 = {
+        x: [1, 2, 3, 4],
+        y: [16, 5, 11, 9],
+        type: "scatter",
+      };
+
+      var data = [trace1, trace2];
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM Loaded");
+        Plotly.newPlot('plotly_graph', data);
+        var updateDOM = function(data){
+             document.getElementById("text").innerHTML = data;
+             console.log('hello', data);
+        }
+
+        new QWebChannel(qt.webChannelTransport,
+        function(channel){
+        var JSobject = channel.objects.webobj;
+        console.log("Hello->");
+        JSobject.jscallme("Calling from JS...");
+        console.log(JSobject.data);
+        JSobject.dataChanged.connect(updateDOM);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <p id="text">Hi</p>
+    <div id="plotly_graph"></div>
+  </body>
+</html>
