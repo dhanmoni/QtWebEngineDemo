@@ -30,13 +30,16 @@
         function(channel){
         var JSobject = channel.objects.webobj;
         console.log("Hello->");
-        JSobject.jscallme("Calling from JS...");
-        JSobject.dataChanged.connect(function(arg, arg2) {
-                console.log(JSobject.data);
-                console.log(JSobject.num);
-                console.log(arg);
-                console.log(arg2)
-                document.getElementById("text").innerHTML = JSobject.data;
+        JSobject.dataChanged.connect(function(arg) {
+
+                console.log(arg.plottingData.x_val);
+                console.log(arg.plottingData.y_val);
+
+                Plotly.addTraces('plotly_graph', {
+                x: arg.plottingData.x_val,
+                y: arg.plottingData.y_val,
+                type: "scatter",
+                })
             });
         });
       });
